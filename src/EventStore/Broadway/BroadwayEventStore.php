@@ -121,17 +121,19 @@ class BroadwayEventStore implements BroadwayEventStoreInterface
             );
         }
 
-        try {
-            $this
-                ->eventStore
-                ->writeToStream(
-                    $id,
-                    new WritableEventCollection($events),
-                    $playhead - 1
-                )
-            ;
-        } catch (WrongExpectedVersionException $e) {
-            throw new BroadwayOptimisticLockException($e->getMessage());
+        if(count($events) > 0) {
+            try {
+                $this
+                    ->eventStore
+                    ->writeToStream(
+                        $id,
+                        new WritableEventCollection($events),
+                        $playhead - 1
+                    )
+                ;
+            } catch (WrongExpectedVersionException $e) {
+                throw new BroadwayOptimisticLockException($e->getMessage());
+            }
         }
     }
 
