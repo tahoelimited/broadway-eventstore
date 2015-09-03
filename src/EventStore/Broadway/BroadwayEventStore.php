@@ -128,7 +128,7 @@ class BroadwayEventStore implements BroadwayEventStoreInterface
                     ->writeToStream(
                         $id,
                         new WritableEventCollection($events),
-                        $playhead - 1
+                        -2// TODO: fix this! $playhead - 1
                     )
                 ;
             } catch (WrongExpectedVersionException $e) {
